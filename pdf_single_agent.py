@@ -102,25 +102,26 @@ def generate_dynamic_agent_perspective(metrics):
     # PERFORMANCE POSITIONING
     if cashflow > 0:
         text += (
-            "From an agent’s perspective, this property aligns well with long-term "
-            "income strategies given its positive cash flow foundation. "
+            "Based on the current assumptions, this property projects positive cash flow, "
+            "which can support a more income-oriented strategy from day one. "
         )
     elif cashflow > -150:
         text += (
-            "This property sits near break-even cash flow, making it a realistic entry "
-            "point for buyers prioritizing long-term appreciation over immediate income. "
+            "Based on the current assumptions, this property is close to break-even cash flow. "
+            "That typically means the outcome depends more on time horizon, rent growth, and cost control "
+            "than immediate monthly income. "
         )
     else:
         text += (
-            "Initial cash flow is negative, suggesting this investment may appeal more "
-            "to buyers with strong reserves or those focused primarily on appreciation. "
+            "Based on the current assumptions, this property starts cash-flow negative, "
+            "so the outcome is more dependent on long-term appreciation and rent growth than near-term income. "
         )
 
-    # RETURN PROFILE
+    # RETURN PROFILE (client - facing)
     if roi >= 12:
         text += (
-            "The ROI profile is especially compelling, giving agents a strong narrative "
-            "for long-horizon investors seeking predictable compounding returns. "
+            "The ROI profile is especially compelling for long-horizon investors seeking "
+            "predictable compounding returns. "
         )
     elif roi >= 7:
         text += (
@@ -136,13 +137,15 @@ def generate_dynamic_agent_perspective(metrics):
     # GRADE INTERPRETATION
     if grade in ("A", "B"):
         text += (
-            " Favorable investment conditions support a confident presentation to "
-            "buyers seeking stability and long-term rental demand."
+            " Overall, the risk/return profile appears relatively favorable compared to many comparable scenarios."
+        )
+    elif grade in ("C", "D"):
+        text += (
+            " Overall, the risk/return profile looks mixed, so it may be worth reviewing assumptions like rent, expenses, and financing."
         )
     else:
         text += (
-            " Agents may choose to highlight renovation pathways or financing structures "
-            "that strengthen this investment profile."
+            " Overall, this scenario appears higher-risk under the current assumptions, so it may be worth stress-testing rent, expenses, and financing inputs."
         )
 
     return text.strip()
@@ -202,9 +205,6 @@ def generate_pdf(
     brokerage_name: str,
     client_name: str,
     agent_notes: str = "",
-    #improvement_name: str = "",
-    #improvement_cost: float = 0.0,
-    #improvement_rent_impact: float = 0.0,
     improvements_list=None,
 ):
     print("🔥 USING pdf_single_agent.py (dynamic, icon-free version)")
@@ -334,23 +334,6 @@ def generate_pdf(
         current_rent = float(current_rent) if current_rent is not None else None
     except (TypeError, ValueError):
         current_rent = None
-
-    #curated = [
-        #("Monthly Cash Flow", metrics.get("First Year Cash Flow ($)", "N/A")),
-        #("Expected Annual Return", metrics.get("Final Year ROI (%)", "N/A")),
-        #("Monthly Cost vs Monthly Rent", metrics.get("Cash-on-Cash Return (%)", "N/A")),
-        #("Investment Grade", grade),
-
-        #("Current Rent Assumption (Today)",
-            #f"${current_rent:,.0f}" if current_rent is not None else "N/A"
-        #),
-
-        #(f"Estimated Rent in Year {year_x}" if year_x else "Estimated Rent (End of Period)",
-            #f"${projected_monthly_rent:,.0f}" if projected_monthly_rent is not None else "N/A"
-        #),
-    #]
-
-    # Prefer year_x from rent-by-year list; fallback to property_data time_horizon
     fallback_year_x = property_data.get("time_horizon")
     try:
         fallback_year_x = int(fallback_year_x) if fallback_year_x is not None else None
@@ -391,12 +374,7 @@ def generate_pdf(
     # ---------------------------------------
     # AGENT PERSPECTIVE (DYNAMIC WITH OVERRIDE)
     # ---------------------------------------
-    #elements.append(Paragraph("Agent Perspective", section_style))
-
-    #agent_text = agent_notes.strip() or generate_dynamic_agent_perspective(metrics)
-    #elements.append(Paragraph(agent_text, body_style))
-    #elements.append(Spacer(1, 8))
-    elements.append(Paragraph("Agent Perspective", section_style))
+    elements.append(Paragraph("Client Perspective", section_style))
 
     # Always use dynamic agent perspective — ignore agent notes entirely
     agent_text = generate_dynamic_agent_perspective(metrics)
