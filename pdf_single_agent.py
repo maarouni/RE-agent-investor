@@ -80,14 +80,38 @@ def generate_dynamic_executive_summary(metrics):
         )
     # RISK & GRADE INTERPRETATION
     grade_map = {
-        "A": "low-risk, high-quality opportunity suitable for conservative and growth-oriented buyers alike.",
-        "B": "strong overall profile with balanced risk and reward characteristics.",
-        "C": "moderate performance typical of mid-market investment properties.",
-        "D": "property with higher monthly costs relative to income, making it more sensitive to financing terms and timing and potentially better suited for buyers with a longer hold horizon or lifestyle priorities beyond cash flow.",
-        "F": "property where the monthly cost is significantly above the projected income, best suited for buyers focused on long-term ownership and equity growth.",
+        "A": (
+            "low-risk, high-quality opportunity suitable for both conservative and "
+            "growth-oriented buyers."
+        ),
+        "B": (
+            "strong overall profile with balanced risk and reward characteristics."
+        ),
+        "C": (
+            "moderate performance typical of mid-market investment properties."
+        ),
+        "D": (
+            "property with higher monthly costs relative to income, making it more "
+            "sensitive to financing terms and timing, and potentially better suited "
+            "for buyers with a longer hold horizon or lifestyle priorities beyond cash flow."
+        ),
+        "F": (
+            "scenario where monthly costs exceed projected income in the early years. "
+            "Best suited for buyers prioritizing long-term equity growth, future value, "
+            "or lifestyle considerations."
+        ),
     }
 
-    summary += f" Overall, this property represents a {grade_map.get(grade, 'moderate investment profile.')}"
+    #summary +=  (f" Overall, this property represents a {grade_map.get(grade, 'moderate investment profile.')}"
+
+
+    #}
+
+    summary += (
+        f" Overall, this property represents a "
+        f"{grade_map.get(grade, 'moderate investment profile.')}"
+    )             
+                 
 
     return summary.strip()
 
