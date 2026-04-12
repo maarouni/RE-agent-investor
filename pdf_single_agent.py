@@ -379,7 +379,7 @@ def generate_pdf(
     coc = metrics.get("Cash-on-Cash Return (%)", None)
 
     curated = [
-        ("Monthly Cash Flow ($)", fmt_money(monthly_cash_flow)),  # ✅ $ label
+        ("Annual Cash Flow ($)", fmt_money(monthly_cash_flow)),  # ✅ $ label
         (f"Expected Return (%) — by Year {year_x}" if year_x else "Expected Return (%)",
          fmt_pct(final_year_roi)),  # ✅ % label + Year X
         ("Monthly Cost vs Monthly Rent (%)", fmt_pct(coc)),  # ✅ % label (even if name is imperfect)
